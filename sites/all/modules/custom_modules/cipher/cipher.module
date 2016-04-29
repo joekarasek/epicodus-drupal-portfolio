@@ -1,0 +1,63 @@
+<?php
+///////////////////////// Cipher Module  /////////////////////////
+// This module takes three inputs: a string, an interger to 'shift'
+// by, and a direction to shift (left or right). The user then gets
+// thier string back encrypted.
+
+
+/////////////////////////// Menu Hook ///////////////////////////
+
+function clock_angle_menu() {
+    $items['cipher_input'] = array(
+        'title' => 'Shift Cipher',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('cipher_form'),
+        'access callback' => TRUE,
+        'type' => MENU_NORMAL_ITEM,
+    );
+    $items['chiper_result'] = array(
+        'title' => 'Shift Cipher Results',
+        'page callback' => 'cipher_result',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
+    return $items;
+}
+
+
+
+/////////////////////////// Form Hook ///////////////////////////
+
+function cipher_form() {
+  $form['cipher'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Encrypt a message'),
+  );
+  $form['cipher']['direction'] = array(
+    '#type' => 'select',
+    '#title' => 'Direction',
+    '#options' => array(
+      'left' => 'Left',
+      'right' => 'Right',
+    ),
+    '#description' => t('Choose a direction to shift.'),
+    '#required' => TRUE,
+  );
+  $form['cipher']['shift'] = array(
+    '#type' => 'textfield',
+    '#title' => 'Shift',
+    '#description' => t('Choose an amount to shift.'),
+    '#required' => TRUE,
+  );
+  $form['cipher']['message'] = array(
+    '#type' => 'textfield',
+    '#title' => 'Direction',
+    '#description' => t('Enter a message to encrypt.'),
+    '#required' => TRUE,
+  );
+  $form['submit'] = array(
+      '#type' => 'submit',
+      '#value' => 'Here we go!',
+  );
+  return $form;
+}
