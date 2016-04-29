@@ -65,7 +65,11 @@ function cipher_form() {
 }
 
 function cipher_form_submit($form, &$form_state) {
-    $form_state['redirect'] = 'cipher_result';
+  $cipher_key = generate_cipher_key($form_state['values']['shift'], $form_state['values']['direction']);
+
+  $_SESSION['cipher_key'] = $cipher_key;
+
+  $form_state['redirect'] = 'cipher_result';
 }
 
 
@@ -84,8 +88,32 @@ function cipher_form_validate($form, &$form_state) {
   }
 }
 
+/////////////////////////// Cipher Logic ///////////////////////////
+
+// Creates a cipher encryption key, an associative array that can be used to shift cipher a message.
+function generate_cipher_key($shift, $direction) {
+  if ($direction === "left") {
+    $shift = 0 - $shift;
+  }
+  $alphabet = array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
+  $result = array();
+
+  foreach ($alphabet as $key => $letter) {
+    if ($key+$shift<0) {
+      $result[$letter] = $alphabet[$key+$shift+26];
+    } elseif ($key+$shift>25) {
+      $result[$letter] = $alphabet[$key+$shift-26];
+    } else {
+      $result[$letter] = $alphabet[$key+$shift];
+    }
+  }
+  return $result;
+}
+
+
 /////////////////////////// Page Callbacks ///////////////////////////
 
 function cipher_result() {
+  print_r($_SESSION['cipher_key']);
   return "Your cipher module is not yet complete";
 }
