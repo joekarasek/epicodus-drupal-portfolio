@@ -25,7 +25,6 @@ features[field_instance][] = node-project-field_repository
 features[field_instance][] = node-project-field_teaser
 features[field_instance][] = node-project-field_technologies_used
 features[menu_custom][] = main-menu
-features[menu_links][] = main-menu_portfolio:portfolio
 features[node][] = project
 features[variable][] = comment_anonymous_project
 features[variable][] = comment_default_mode_project
