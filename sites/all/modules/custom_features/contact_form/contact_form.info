@@ -1,0 +1,9 @@
+name = Contact Form
+description = Contact form settings.
+core = 7.x
+package = Features
+version = 7.x-1.0
+dependencies[] = contact
+dependencies[] = features
+features[contact_categories][] = Inquiries/Feedback
+features[features_api][] = api:2
