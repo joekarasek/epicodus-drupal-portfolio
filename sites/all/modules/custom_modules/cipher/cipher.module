@@ -46,7 +46,8 @@ function cipher_form() {
   $form['cipher']['shift'] = array(
     '#type' => 'textfield',
     '#title' => 'Shift',
-    '#description' => t('Choose an amount to shift.'),
+    '#description' => t('Choose an amount to shift (no more than 25).'),
+    '#element_validate' => array('element_validate_integer_positive', 'element_validate_range'),
     '#required' => TRUE,
   );
   $form['cipher']['message'] = array(
@@ -58,6 +59,7 @@ function cipher_form() {
   $form['submit'] = array(
       '#type' => 'submit',
       '#value' => 'Here we go!',
+      '#validate' => array('cipher_form_validate'),
   );
   return $form;
 }
@@ -67,6 +69,20 @@ function cipher_form_submit($form, &$form_state) {
 }
 
 
+
+/////////////////////////// Form Validators ///////////////////////////
+
+function element_validate_range($element) {
+  if( $element['#value'] > 25 ) {
+    form_error($element, t('You must enter a shift value between 1 and 25.'));
+  }
+}
+
+function cipher_form_validate($form, &$form_state) {
+  if (preg_match('/[^a-zA-Z0-9.!?\ \'";]/' , $form_state['values']['message'])) {
+    form_set_error('message', "Your message can only contain letters, numbers, and common punctuation (.,!?'\")");
+  }
+}
 
 /////////////////////////// Page Callbacks ///////////////////////////
 
