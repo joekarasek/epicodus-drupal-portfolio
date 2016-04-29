@@ -7,7 +7,7 @@
 
 /////////////////////////// Menu Hook ///////////////////////////
 
-function clock_angle_menu() {
+function cipher_menu() {
     $items['cipher_input'] = array(
         'title' => 'Shift Cipher',
         'page callback' => 'drupal_get_form',
@@ -51,7 +51,7 @@ function cipher_form() {
   );
   $form['cipher']['message'] = array(
     '#type' => 'textfield',
-    '#title' => 'Direction',
+    '#title' => 'Message',
     '#description' => t('Enter a message to encrypt.'),
     '#required' => TRUE,
   );
