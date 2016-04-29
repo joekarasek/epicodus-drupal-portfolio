@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Site Configs feature.
+ */
+
+include_once 'site_configs.features.inc';
