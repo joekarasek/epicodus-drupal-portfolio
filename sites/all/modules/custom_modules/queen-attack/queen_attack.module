@@ -1,0 +1,95 @@
+<?php
+
+// menu hook
+function queen_attack_menu() {
+    $items['queen_attack_input'] = array(
+        'title' => 'Queen Attack Form',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('queen_attack_form'),
+        'access callback' => TRUE,
+        'type' => MENU_NORMAL_ITEM,
+    );
+    $items['queen_attack_output'] = array(
+        'title' => 'Queen Attack Results',
+        'page callback' => 'queen_attack_result',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
+    return $items;
+}
+
+function queen_attack_form() {
+    $form['first_piece'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('First Piece'),
+    );
+    $form['first_piece']['x1'] = array(
+        '#type' => 'textfield',
+        '#title' => 'x position of queen',
+        '#required' => TRUE,
+        '#element_validate' => array('element_validate_integer_positive', 'element_validate_range'),
+    );
+    $form['first_piece']['y1'] = array(
+        '#type' => 'textfield',
+        '#title' => 'y position of queen',
+        '#required' => TRUE,
+        '#element_validate' => array('element_validate_integer_positive', 'element_validate_range'),
+    );
+    $form['second_piece'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Second Piece'),
+    );
+    $form['second_piece']['x2'] = array(
+        '#type' => 'textfield',
+        '#title' => 'x position of victim',
+        '#required' => TRUE,
+        '#element_validate' => array('element_validate_integer_positive', 'element_validate_range'),
+    );
+    $form['second_piece']['y2'] = array(
+        '#type' => 'textfield',
+        '#title' => 'y position of victim',
+        '#required' => TRUE,
+        '#element_validate' => array('element_validate_integer_positive', 'element_validate_range'),
+    );
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => 'Here we go!',
+        '#validate' => array('queen_attack_form_validate'),
+    );
+
+    return $form;
+}
+
+function element_validate_range($element) {
+  if ( $element['#value'] > 8 ) {
+    form_error($element, t('One of your pieces is not on the board! Please please an spot between 1 and 8.'));
+  }
+}
+
+function queen_attack_form_validate($form, &$form_state) {
+  $x_values_equal = ( $form_state['values']['x1'] === $form_state['values']['x2']) ;
+  $y_values_equal = ( $form_state['values']['y1'] === $form_state['values']['y2']) ;
+  if ( $x_values_equal && $y_values_equal ) {
+    form_set_error('second_piece', "Your two pieces cannot occupy the same space.");
+  }
+}
+
+function queen_attack_form_submit($form, &$form_state) {
+    $x1 = $form_state['values']['x1'];
+    $y1 = $form_state['values']['y1'];
+    $x2 = $form_state['values']['x2'];
+    $y2 = $form_state['values']['y2'];
+
+    $pieces_are_diagonal = ( abs( $x1 - $x2 ) === abs( $y1 - $y2 ) );
+
+    if( $x1 === $x2 || $y1 === $y2 || $pieces_are_diagonal) {
+        $_SESSION['queen_attack'] = "Your victim is in striking range! You may attack.";
+    } else {
+        $_SESSION['queen_attack'] = "You cannot attack.";
+    }
+    $form_state['redirect'] = 'queen_attack_output';
+}
+
+function queen_attack_result() {
+    return $_SESSION['queen_attack'];
+}
