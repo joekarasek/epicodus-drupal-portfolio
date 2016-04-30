@@ -29,48 +29,48 @@ function cipher_menu() {
 /////////////////////////// Form Hook ///////////////////////////
 
 function cipher_form() {
-  $form['cipher'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Encrypt a message'),
-  );
-  $form['cipher']['direction'] = array(
-    '#type' => 'select',
-    '#title' => 'Direction',
-    '#options' => array(
-      'left' => 'Left',
-      'right' => 'Right',
-    ),
-    '#description' => t('Choose a direction to shift.'),
-    '#required' => TRUE,
-  );
-  $form['cipher']['shift'] = array(
-    '#type' => 'textfield',
-    '#title' => 'Shift',
-    '#description' => t('Choose an amount to shift (no more than 25).'),
-    '#element_validate' => array('element_validate_integer_positive', 'element_validate_range'),
-    '#required' => TRUE,
-  );
-  $form['cipher']['message'] = array(
-    '#type' => 'textfield',
-    '#title' => 'Message',
-    '#description' => t('Enter a message to encrypt.'),
-    '#required' => TRUE,
-  );
-  $form['submit'] = array(
-      '#type' => 'submit',
-      '#value' => 'Here we go!',
-      '#validate' => array('cipher_form_validate'),
-  );
-  return $form;
+    $form['cipher'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Encrypt a message'),
+    );
+    $form['cipher']['direction'] = array(
+        '#type' => 'select',
+        '#title' => 'Direction',
+        '#options' => array(
+            'left' => 'Left',
+            'right' => 'Right',
+        ),
+        '#description' => t('Choose a direction to shift.'),
+        '#required' => TRUE,
+    );
+    $form['cipher']['shift'] = array(
+        '#type' => 'textfield',
+        '#title' => 'Shift',
+        '#description' => t('Choose an amount to shift (no more than 25).'),
+        '#element_validate' => array('element_validate_integer_positive', 'element_validate_range'),
+        '#required' => TRUE,
+    );
+    $form['cipher']['message'] = array(
+        '#type' => 'textfield',
+        '#title' => 'Message',
+        '#description' => t('Enter a message to encrypt.'),
+        '#required' => TRUE,
+    );
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => 'Here we go!',
+        '#validate' => array('cipher_form_validate'),
+    );
+    return $form;
 }
 
 function cipher_form_submit($form, &$form_state) {
-  // Create cipher key, encrypt, and store result in SESSION before redirecting to result page
-  $cipher_key = generate_cipher_key($form_state['values']['shift'], $form_state['values']['direction']);
-  $encrypted_message = encrypt_message($form_state['values']['message'], $cipher_key);
-  $_SESSION['encrypted_message'] = $encrypted_message;
+    // Create cipher key, encrypt, and store result in SESSION before redirecting to result page
+    $cipher_key = generate_cipher_key($form_state['values']['shift'], $form_state['values']['direction']);
+    $encrypted_message = encrypt_message($form_state['values']['message'], $cipher_key);
+    $_SESSION['encrypted_message'] = $encrypted_message;
 
-  $form_state['redirect'] = 'cipher_result';
+    $form_state['redirect'] = 'cipher_result';
 }
 
 
@@ -78,15 +78,15 @@ function cipher_form_submit($form, &$form_state) {
 /////////////////////////// Form Validators ///////////////////////////
 
 function element_validate_range($element) {
-  if( $element['#value'] > 25 ) {
-    form_error($element, t('You must enter a shift value between 1 and 25.'));
-  }
+    if( $element['#value'] > 25 ) {
+        form_error($element, t('You must enter a shift value between 1 and 25.'));
+    }
 }
 
 function cipher_form_validate($form, &$form_state) {
-  if (preg_match('/[^a-zA-Z0-9.!?\ \'";]/' , $form_state['values']['message'])) {
-    form_set_error('message', "Your message can only contain letters, numbers, and common punctuation (.,!?'\")");
-  }
+    if (preg_match('/[^a-zA-Z0-9.!?\ \'";]/' , $form_state['values']['message'])) {
+        form_set_error('message', "Your message can only contain letters, numbers, and common punctuation (.,!?'\")");
+    }
 }
 
 
@@ -95,49 +95,49 @@ function cipher_form_validate($form, &$form_state) {
 
 // Creates a cipher encryption key, an associative array that can be used to shift cipher a message.
 function generate_cipher_key($shift, $direction) {
-  if ($direction === "left") {
-    $shift = 0 - $shift;
-  }
-  $alphabet = array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
-  $result = array();
-
-  foreach ($alphabet as $key => $letter) {
-    if ($key+$shift<0) {
-      $result[$letter] = $alphabet[$key+$shift+26];
-    } elseif ($key+$shift>25) {
-      $result[$letter] = $alphabet[$key+$shift-26];
-    } else {
-      $result[$letter] = $alphabet[$key+$shift];
+    if ($direction === "left") {
+        $shift = 0 - $shift;
     }
-  }
-  return $result;
-}
+    $alphabet = array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
+    $result = array();
 
-function encrypt_message($message, $cipher_key) {
-  $message_lc_characters = str_split(strtolower($message));
-  $result = $message_lc_characters;
-
-  for( $i = 0; $i < count($message_lc_characters); $i++ ) {
-    foreach ($cipher_key as $letter => $replacement_letter) {
-      if ($letter === $message_lc_characters[$i]) {
-        $result[$i] = str_replace($letter, $replacement_letter, $message_lc_characters[$i]);
-        break;
-      }
+    foreach ($alphabet as $key => $letter) {
+        if ($key+$shift<0) {
+            $result[$letter] = $alphabet[$key+$shift+26];
+        } elseif ($key+$shift>25) {
+            $result[$letter] = $alphabet[$key+$shift-26];
+        } else {
+            $result[$letter] = $alphabet[$key+$shift];
+        }
     }
+    return $result;
   }
 
-  // foreach ($message_lc_characters as $letter) {
-  //   $result = str_replace(array_keys($cipher_key), $cipher_key, $letter);
-  // }
+  function encrypt_message($message, $cipher_key) {
+      $message_lc_characters = str_split(strtolower($message));
+      $result = $message_lc_characters;
 
-  $result = implode($result);
+      for( $i = 0; $i < count($message_lc_characters); $i++ ) {
+          foreach ($cipher_key as $letter => $replacement_letter) {
+              if ($letter === $message_lc_characters[$i]) {
+                  $result[$i] = str_replace($letter, $replacement_letter, $message_lc_characters[$i]);
+                  break;
+              }
+          }
+    }
 
-  return $result;
+    // foreach ($message_lc_characters as $letter) {
+    //   $result = str_replace(array_keys($cipher_key), $cipher_key, $letter);
+    // }
+
+    $result = implode($result);
+
+    return $result;
 }
 
 
 /////////////////////////// Page Callbacks ///////////////////////////
 
 function cipher_result() {
-  return "Your cipher complete, here is your encrypted message: " . $_SESSION['encrypted_message'];
+    return "Your cipher complete, here is your encrypted message: " . $_SESSION['encrypted_message'];
 }
