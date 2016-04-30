@@ -65,9 +65,10 @@ function cipher_form() {
 }
 
 function cipher_form_submit($form, &$form_state) {
+  // Create cipher key, encrypt, and store result in SESSION before redirecting to result page
   $cipher_key = generate_cipher_key($form_state['values']['shift'], $form_state['values']['direction']);
-
-  $_SESSION['cipher_key'] = $cipher_key;
+  $encrypted_message = encrypt_message($form_state['values']['message'], $cipher_key);
+  $_SESSION['encrypted_message'] = $encrypted_message;
 
   $form_state['redirect'] = 'cipher_result';
 }
@@ -87,6 +88,8 @@ function cipher_form_validate($form, &$form_state) {
     form_set_error('message', "Your message can only contain letters, numbers, and common punctuation (.,!?'\")");
   }
 }
+
+
 
 /////////////////////////// Cipher Logic ///////////////////////////
 
@@ -110,10 +113,31 @@ function generate_cipher_key($shift, $direction) {
   return $result;
 }
 
+function encrypt_message($message, $cipher_key) {
+  $message_lc_characters = str_split(strtolower($message));
+  $result = $message_lc_characters;
+
+  for( $i = 0; $i < count($message_lc_characters); $i++ ) {
+    foreach ($cipher_key as $letter => $replacement_letter) {
+      if ($letter === $message_lc_characters[$i]) {
+        $result[$i] = str_replace($letter, $replacement_letter, $message_lc_characters[$i]);
+        break;
+      }
+    }
+  }
+
+  // foreach ($message_lc_characters as $letter) {
+  //   $result = str_replace(array_keys($cipher_key), $cipher_key, $letter);
+  // }
+
+  $result = implode($result);
+
+  return $result;
+}
+
 
 /////////////////////////// Page Callbacks ///////////////////////////
 
 function cipher_result() {
-  print_r($_SESSION['cipher_key']);
-  return "Your cipher module is not yet complete";
+  return "Your cipher complete, here is your encrypted message: " . $_SESSION['encrypted_message'];
 }
