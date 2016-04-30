@@ -1,5 +1,0 @@
-name = Queen Attack
-description = Enter two chess board positions, determine if the second position is vulnerable to attack.
-package = Custom Modules
-core = 7.x
-files[] = queen_attack.module
