@@ -50,6 +50,8 @@ _This installation assumes you will use the MAMP stack to deploy this site. You 
 
 _With MAMP running and the database setup, you should be able to view the site at `localhost:8888`._
 
+_**Alternately** you can use gulp to launch the site. See the readme [here](https://github.com/joekarasek/toolkit-drupal7-gulp)._
+
 ---
 ## User Roles
 
