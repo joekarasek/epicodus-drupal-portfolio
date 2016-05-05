@@ -115,28 +115,28 @@ function generate_cipher_key($shift, $direction)
     return $result;
 }
 
-  function encrypt_message($message, $cipher_key)
-  {
-      $message_lc_characters = str_split(strtolower($message));
-      $result = $message_lc_characters;
+function encrypt_message($message, $cipher_key)
+{
+    $message_lc_characters = str_split(strtolower($message));
+    $result = $message_lc_characters;
 
-      for ($i = 0; $i < count($message_lc_characters); ++$i) {
-          foreach ($cipher_key as $letter => $replacement_letter) {
-              if ($letter === $message_lc_characters[$i]) {
-                  $result[$i] = str_replace($letter, $replacement_letter, $message_lc_characters[$i]);
-                  break;
-              }
-          }
-      }
+    for ($i = 0; $i < count($message_lc_characters); ++$i) {
+        foreach ($cipher_key as $letter => $replacement_letter) {
+            if ($letter === $message_lc_characters[$i]) {
+                $result[$i] = str_replace($letter, $replacement_letter, $message_lc_characters[$i]);
+                break;
+            }
+        }
+    }
 
-    // foreach ($message_lc_characters as $letter) {
-    //   $result = str_replace(array_keys($cipher_key), $cipher_key, $letter);
-    // }
+  // foreach ($message_lc_characters as $letter) {
+  //   $result = str_replace(array_keys($cipher_key), $cipher_key, $letter);
+  // }
 
     $result = implode($result);
 
-      return $result;
-  }
+    return $result;
+}
 
 /////////////////////////// Page Callbacks ///////////////////////////
 

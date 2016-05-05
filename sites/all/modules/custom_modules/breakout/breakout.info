@@ -1,0 +1,5 @@
+name = Breakout
+description = Breakout in JS, on a Drupal Page.
+package = Custom Modules
+core = 7.x
+files[] = breakout.module
