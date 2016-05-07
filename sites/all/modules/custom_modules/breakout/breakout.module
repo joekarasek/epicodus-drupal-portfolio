@@ -1,6 +1,16 @@
 <?php
 
 
-function breakout_menu_init() {
-  
+function breakout_block_info() {
+    $blocks['breakout'] = array(
+      'info' => t('Breakout Game'),
+      'cache' => DRUPAL_CACHE_PER_ROLE,
+    );
+    return $blocks;
+}
+
+function breakout_block_view() {
+    $blocks['subject'] = t('Breakout 2D');
+    $blocks['content'] = '<canvas id="myCanvas" width="480" height="320"></canvas>';
+    return $blocks;
 }
