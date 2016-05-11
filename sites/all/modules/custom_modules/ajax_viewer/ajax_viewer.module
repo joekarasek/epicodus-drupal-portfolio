@@ -1,15 +1,15 @@
 <?php
-function mymodule_menu() {
+function ajax_viewer_menu() {
     $items['path-to-ajax/%/%'] = array(
             'access arguments' => array('access content'),
-            'page callback' => 'mymodule_ajax_callback',
+            'page callback' => 'ajax_viewer_ajax_callback',
             'page arguments' => array(1,2),
             'type' => MENU_CALLBACK,
     );
     return $items;
 }
 
-function mymodule_ajax_callback($js, $node_id) {
+function ajax_viewer_ajax_callback($js, $node_id) {
   $node = node_load($node_id);
 
     if($js == 'nojs') {
