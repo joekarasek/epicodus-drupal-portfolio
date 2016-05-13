@@ -1,0 +1,33 @@
+<?php
+
+    function project_viewer_menu() {
+        $items['path-to-ajax/%/%'] = array(
+            'access arguments' => array('access content'),
+            'page callback' => 'project_viewer_ajax_callback',
+            'page arguments' => array(1,2),
+            'type' => MENU_CALLBACK,
+        );
+        return $items;
+    }
+
+    function project_viewer_ajax_callback($js, $node_id) {
+        // Check if javascript is enabled, redirect to node if it is not
+        if ($js == 'nojs') {
+          drupal_goto('node/' . $node_id);
+        }
+
+        // Get the node by $node_id
+        $node = node_load($node_id);
+        // Get the render array for the node
+        $build = node_view($node);
+        // Render it into actual HTML
+        $html = render($build);
+        // Here we prepare an ajax command to insert the node's HTML into our div
+        $commands = array();
+        $commands[] = ajax_command_html('#project-viewer-ajax-wrapper', $html);
+        // Render the commands into JSON data format and execute them by printing them to the browser.
+        print ajax_render($commands);
+        // Exit so Drupal doesn't have a chance to build a whole page.
+        exit;
+
+    }

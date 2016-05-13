@@ -1,0 +1,5 @@
+name = Project Viewer
+description = Display projects using ajax.
+package = Custom Modules
+core = 7.x
+files[] = project_viewer.module
