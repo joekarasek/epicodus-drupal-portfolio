@@ -1,0 +1,34 @@
+<?php
+///////////////////////// DNA Sequencer Testing  /////////////////////////
+// This module takes a user input string (composed of A,C,T, and G),
+// and prints out a diagram of DNA pairs
+// This test file includes both unit and functional tests for this module
+
+////////////////////////////// Unit Testing //////////////////////////////
+
+    class DnaSequencerTestCase extends DrupalUnitTestCase
+    {
+        function testPairGenerator()
+        {
+            $description = "An array with single letters (A,C,T,G) will return as an array with the format 'x-x'";
+
+            // Arrange
+            $input = array(
+                'A',
+                'C',
+                'T',
+                'G',
+            );
+
+            // Act
+            $result = dna_sequencer_pair_generator($input);
+
+            // Assert
+            $this->assertEqual($result, array(
+                'A-T',
+                'C-G',
+                'T-A',
+                'G-C',
+            ));
+        }
+    }
