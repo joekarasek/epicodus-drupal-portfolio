@@ -1,0 +1,7 @@
+name = DNA Sequencer
+description = Turn a RNA string into full DNA, see amino acids.
+package = Custom Modules
+core = 7.x
+files[] = dna_sequencer.module
+files[] = dna_sequencer.test
+dependencies[] = simpletest
