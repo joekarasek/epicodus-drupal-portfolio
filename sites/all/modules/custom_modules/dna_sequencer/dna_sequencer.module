@@ -55,7 +55,12 @@
     // Turns an array of pairs in the format "x-x" into an unordered
     // list for display
     function dna_sequencer_pair_display($input_array) {
-
+        $result = "<ul>";
+        foreach ($input_array as $dna_pair) {
+            $result .= "<li>" . $dna_pair . "</li>";
+        }
+        $result .= "</ul>";
+        return $result;
     }
 
     // Takes a validated string input from the form and returns an html string for display
