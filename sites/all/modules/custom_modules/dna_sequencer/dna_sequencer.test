@@ -40,4 +40,23 @@
                 'G-C',
             ));
         }
+
+        function testPairDisplay()
+        {
+            $description = "Takes an array of DNA 'pairs' and turns them into a string to for display, ul snippet";
+
+            // Arrange
+            $input = array(
+                'A-T',
+                'C-G',
+                'T-A',
+                'G-C',
+            );
+
+            // Act
+            $result = dna_sequencer_pair_display($input);
+
+            // Assert
+            $this->assertEqual($result, "<ul><li>A-T</li><li>C-G</li><li>T-A</li><li>G-C</li></ul>");
+        }
     }
