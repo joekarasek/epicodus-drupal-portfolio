@@ -5,47 +5,70 @@
 
 /////////////////////////// Menu Hook ///////////////////////////
 
-    function dna_sequencer_menu() {
-      // Create two pages, one for the form and one for the results
+    function dna_sequencer_menu()
+    {
+        // Create two pages, one for the form and one for the results
+        $items['dna_sequencer_input'] = array(
+            'title' => 'DNA Sequence Creator',
+            'page callback' => 'drupal_get_form',
+            'page arguments' => array('dna_sequencer_form'),
+            'access callback' => true,
+            'type' => MENU_NORMAL_ITEM,
+        );
+        $items['dna_sequencer_result'] = array(
+            'title' => 'DNA Sequencer Results',
+            'page callback' => 'dna_sequencer_result',
+            'access callback' => true,
+            'type' => MENU_CALLBACK,
+        );
+
+        return $items;
     }
-
-
 
 /////////////////////////// Form Hook ///////////////////////////
 
-    function dna_sequencer_form() {
-      // Create a form to enter a string ot process into a dna diagram
+    function dna_sequencer_form()
+    {
+        // Create a form to enter a string ot process into a dna diagram
+        $form['dna'] = array(
+            '#type' => 'fieldset',
+            '#title' => t('Create a DNA string'),
+        );
+        $form['dna']['sequence'] = array(
+            '#type' => 'textfield',
+            '#title' => 'Sequence',
+            '#description' => t('Enter a string comprised of the letters A,C,T, and G.'),
+            '#required' => true,
+        );
+
+        return $form;
     }
 
-    function dna_sequencer_form_submit() {
-      // On form submit action, process info, store in session, and redirect to results page
+    function dna_sequencer_form_submit()
+    {
+        // On form submit action, process info, store in session, and redirect to results page
     }
-
 
 /////////////////////////// Form Validators ///////////////////////////
-
-
-
-
 
 /////////////////////////// DNA Sequencer Logic ///////////////////////////
 
     // Turns an array of uppercase letters (A,C,T,and G) and turns it
     // into an array containing DNA pairs, in the format "X-X"
-    function dna_sequencer_pair_generator($input_array) {
-
+    function dna_sequencer_pair_generator($input_array)
+    {
         foreach ($input_array as $index => $character) {
-            if (strtoupper($character) === "A") {
-                $input_array[$index] = "A-T";
+            if (strtoupper($character) === 'A') {
+                $input_array[$index] = 'A-T';
             }
-            if (strtoupper($character) === "T") {
-                $input_array[$index] = "T-A";
+            if (strtoupper($character) === 'T') {
+                $input_array[$index] = 'T-A';
             }
-            if (strtoupper($character) === "C") {
-                $input_array[$index] = "C-G";
+            if (strtoupper($character) === 'C') {
+                $input_array[$index] = 'C-G';
             }
-            if (strtoupper($character) === "G") {
-                $input_array[$index] = "G-C";
+            if (strtoupper($character) === 'G') {
+                $input_array[$index] = 'G-C';
             }
         }
 
@@ -54,22 +77,19 @@
 
     // Turns an array of pairs in the format "x-x" into an unordered
     // list for display
-    function dna_sequencer_pair_display($input_array) {
-        $result = "<ul>";
+    function dna_sequencer_pair_display($input_array)
+    {
+        $result = '<ul>';
         foreach ($input_array as $dna_pair) {
-            $result .= "<li>" . $dna_pair . "</li>";
+            $result .= '<li>'.$dna_pair.'</li>';
         }
-        $result .= "</ul>";
+        $result .= '</ul>';
+
         return $result;
-    }
-
-    // Takes a validated string input from the form and returns an html string for display
-    function dna_sequencer_sequence($input_string) {
-
     }
 
 ////////////////////////////// Page Callback //////////////////////////////
 
-    function dna_sequencer_result() {
-
+    function dna_sequencer_result()
+    {
     }
