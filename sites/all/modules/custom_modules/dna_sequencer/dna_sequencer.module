@@ -34,6 +34,22 @@
     // into an array containing DNA pairs, in the format "X-X"
     function dna_sequencer_pair_generator($input_array) {
 
+        foreach ($input_array as $index => $character) {
+            if (strtoupper($character) === "A") {
+                $input_array[$index] = "A-T";
+            }
+            if (strtoupper($character) === "T") {
+                $input_array[$index] = "T-A";
+            }
+            if (strtoupper($character) === "C") {
+                $input_array[$index] = "C-G";
+            }
+            if (strtoupper($character) === "G") {
+                $input_array[$index] = "G-C";
+            }
+        }
+
+        return $input_array;
     }
 
     // Turns an array of pairs in the format "x-x" into an unordered
@@ -50,5 +66,5 @@
 ////////////////////////////// Page Callback //////////////////////////////
 
     function dna_sequencer_result() {
-      
+
     }
