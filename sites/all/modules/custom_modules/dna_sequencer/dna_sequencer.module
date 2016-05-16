@@ -40,16 +40,38 @@
             '#description' => t('Enter a string comprised of the letters A,C,T, and G.'),
             '#required' => true,
         );
+        $form['submit'] = array(
+            '#type' => 'submit',
+            '#value' => 'Sequence DNA!',
+            '#validate' => array('dna_sequencer_form_validate'),
+        );
 
         return $form;
     }
 
-    function dna_sequencer_form_submit()
+    function dna_sequencer_form_submit($form, &$form_state)
     {
-        // On form submit action, process info, store in session, and redirect to results page
+        // On form submit, clean up input (to upper case and string to array)
+        $input_as_array = str_split($form_state['values']['sequence']);
+
+        // Run functions to convert to double helix format, and then to
+        // convert to displayable string with html
+        $pairs = dna_sequencer_pair_generator($input_as_array);
+        $output = dna_sequencer_pair_display($pairs);
+
+        // Store the output in session so it is available for display on the results page
+        $_SESSION['dna_sequencer_result'] = $output;
+
+        // Redirect to display page
+        $form_state['redirect'] = 'dna_sequencer_result';
     }
 
 /////////////////////////// Form Validators ///////////////////////////
+
+    function dna_sequencer_form_validate()
+    {
+
+    }
 
 /////////////////////////// DNA Sequencer Logic ///////////////////////////
 
@@ -92,4 +114,5 @@
 
     function dna_sequencer_result()
     {
+        return $_SESSION['dna_sequencer_result'];
     }
