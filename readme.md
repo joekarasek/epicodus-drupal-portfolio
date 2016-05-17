@@ -1,6 +1,6 @@
 # _**Portfolio: Joe Karasek**_
-### Drupal Week Two Code Review, Drupal Basics
-#### _**By Joseph Karasek, 04.28.2016**_
+### Drupal Week Four Code Review, Drupal Basics
+#### _**By Joseph Karasek, 05.15.2016**_
 ---
 ## Description
 
@@ -8,24 +8,26 @@ _This Drupal 7 based portfolio was put together as a learning exercise during th
 
 _This site was built using [Drupal 7.43](https://www.drupal.org/drupal-7.43-release-notes)._
 
-_This site also uses a [custom built Gulp.js tool](https://github.com/joekarasek/toolkit-drupal7-gulp) to assist with custom module development._
+_This site also uses a [custom built Gulp.js tool](https://github.com/joekarasek/toolkit-drupal7-gulp) to assist with custom module and theme development._
+
+#### _Code Review Objectives_
+
+* _Create a View to display inside of a block on your front page_
+* _Make the View display an unformatted list of linked titles for your choice of content: articles, or your site's custom content type._
+* _Ajax enable the links in your view._
+* _Create a block with a wrapper div in it to display whichever title you've clicked on in your view using ajax._
+* _Create a custom module to handle the ajax calls and load the content into the div._
+* _Create a custom module which presents a form where the user can enter in one half of their DNA helix. Your module should generate the other half and print both sides on the browser._
+* _Start with unit tests, and start with simple input output pairs. Then write the module and include a functional test to make sure the whole interface works._
+* _Remember to validate the input. You should only allow your user to type in the letters A, T, C,_ G.
 
 #### _Code Review Criteria_
 
-* _It should present a custom form with 3 text inputs. We want you to use text inputs rather than radio buttons or menus so that you can practice validation._
-* _One input should be a shift value, one should be a direction, and the third should be the phrase to be encrypted._
-* _Then you should redirect to a second page to show the result - the encoded phrase. Here are a couple examples of input and output._
-* _The shift value is the number of places to shift each letter over._
-* _If the shift direction is "right" then you will add the shift value. For example: "a" with a shift value of 1 and a direction of right would become "b". A shift direction of "left" with a shift value of 1 would turn "b" into "a"._
-* _If the shift amount takes you over the bounds of the alphabet then cycle back to the beginning. For example: a shift value of 3 with the direction of right would turn "z" into "c"._
-* _Any spaces or punctuation in the input phrase should be ignored and reproduced in the final result without being shifted._
-* _Your final result should be in all lowercase._
-* _Be sure to validate all input before calculating the result. Here are the validation rules:_
-* _The shift value must be a positive integer_
-* _The shift direction must be either "left" or "right"._
-* _The only special characters that should be allowed in your input phrase are spaces and punctuation._
-* _Don't forget your Git commits and include a README in your GitHub repository!_
-
+* _Did you create an Ajax enabled View showing the correct content?_
+* _Did you create a custom module solving the given problem, validating user input and including unit tests and at least one functional test?_
+* _Is the code clean and well organized?_
+* _Are you able to discuss the flow of your code and the concepts behind it with an instructor using correct terminology?_
+* _Did you export your database at the end of your project and include it with your modules in your repository with login information in a clear readme?_
 ___
 ## Installation/Setup
 
