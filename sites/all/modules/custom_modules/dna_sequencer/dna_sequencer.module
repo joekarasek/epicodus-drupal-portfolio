@@ -68,9 +68,12 @@
 
 /////////////////////////// Form Validators ///////////////////////////
 
-    function dna_sequencer_form_validate()
+    function dna_sequencer_form_validate(&$elements, &$form_state, $form_id = NULL)
     {
-
+        $input = $form_state['values']['sequence'];
+        if(preg_match("/[^actg]/i", $input)) {
+            form_set_error('sequence', t('You can only enter A, C, T, or G.'));
+        }
     }
 
 /////////////////////////// DNA Sequencer Logic ///////////////////////////
