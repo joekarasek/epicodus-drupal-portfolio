@@ -85,14 +85,18 @@
             $edit = array();
             $edit['sequence'] = "ABCDEFG";
             $this->drupalPost('dna_sequencer_input', $edit, t('Sequence DNA!'));
-            $this->assertText("Input must be composed of A,C,T, and G only.");
+            $this->assertText("You can only enter A, C, T, or G.");
         }
 
         public function testDnaSequencer() {
             $edit = array();
             $edit['sequence'] = "ATTACG";
             $this->drupalPost('dna_sequencer_input', $edit, t('Sequence DNA!'));
-            $this->assertText("Here is your DNA...");
+            $this->assertText("DNA Sequencer Results", t('The Result page did display'));
+            $this->assertText("A-T", t("A was converted correctly"));
+            $this->assertText("T-A", t("T was converted correctly"));
+            $this->assertText("C-G", t("C was converted correctly"));
+            $this->assertText("G-C", t("G was converted correctly"));
 
         }
     }
